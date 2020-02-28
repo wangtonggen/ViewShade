@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,10 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        Blurry.with(this).radius(20).sampling(2).onto(fl_content);
 
-        Log.e("tag1", tv_location1[0] + "---" + tv_location1[1]);
-        Log.e("tag1", tv_location2[0] + "---" + tv_location2[1]);
-        //
-
         tv1.setOnClickListener(this);
         tv2.setOnClickListener(this);
         btn_show.setOnClickListener(this);
@@ -70,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //显示并出现动画
                     fl_content.setVisibility(View.VISIBLE);
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) fl_content.getLayoutParams();
-                    layoutParams.leftMargin = tv2.getLeft();
+                    layoutParams.leftMargin = (int) tv2.getX();
+                    layoutParams.topMargin = (int) tv2.getY();
                     fl_content.setLayoutParams(layoutParams);
                     showShadeAnimation();
                 }
@@ -81,15 +81,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_1:
                 fl_content.getLocationOnScreen(fl_content_location);
-                Log.e("fl_content", tv_location1[0] + "---" + tv_location1[1] + "---" + fl_content_location[0] + "---" + fl_content_location[1]);
-                Log.e("fl_content1", fl_content.getX() + "---" + fl_content.getY() + "---" + tv1.getX() + "---" + tv1.getY());
-//                translationShadeAnimation(fl_content_location[0],tv_location1[0]/2-fl_content_location[0]/2,fl_content_location[1],fl_content_location[1]);
                 translationShadeAnimation(0, -240, 0, 0);
                 break;
             case R.id.tv_2:
                 fl_content.getLocationOnScreen(fl_or_location);
-                Log.e("fl_content", fl_or_location[0] + "---" + fl_or_location[1]);
-                translationShadeAnimation(0, 240, 0, 0);
+                Log.e("fl_content1", fl_content.getX() + "---" + fl_content.getY() + "---" + tv1.getX() + "---" + tv1.getY());
+                translationShadeAnimation(-240, 0, 0, 0);
                 break;
         }
     }
@@ -142,15 +139,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param translationY Y方向移动距离
      */
     private void translationShadeAnimation(float currentX, float translationX, float currentY, float translationY) {
+        //TODO 可能需要使用TranslateAnimation 动画 去除
         Log.e("translation", currentX + "---" + translationX + "---" + currentY + "---" + translationY);
+        Log.e("translation22", fl_content.getX() + "---" + fl_content.getY());
         //动画
         ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(fl_content, "translationX", currentX, translationX);//
-        translationXAnimator.setDuration(300);
+        translationXAnimator.setDuration(1000);
+        translationXAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                Log.e("translation33", fl_content.getX() + "---" + fl_content.getY());
+            }
+        });
         translationXAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         translationXAnimator.start();
 
         ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(fl_content, "translationY", currentY, translationY);//
-        translationYAnimator.setDuration(300);
+        translationYAnimator.setDuration(1000);
         translationYAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         translationYAnimator.start();
     }

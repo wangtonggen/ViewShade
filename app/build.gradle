@@ -33,4 +33,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'jp.wasabeef:blurry:3.0.0'
+
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+
+    implementation 'com.fivehundredpx:blurringview:1.0.0'
 }

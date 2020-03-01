@@ -3,13 +3,16 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.IntEvaluator;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +33,7 @@ import jp.wasabeef.blurry.Blurry;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private LinearLayout ll_content;
     private TextView tv1;
     private TextView tv2;
     private TextView tv3;
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 handler.postDelayed(this, 1000);
             }
         };
+        ll_content = findViewById(R.id.ll_content);
         tv1 = findViewById(R.id.tv_1);
         tv2 = findViewById(R.id.tv_2);
         tv3 = findViewById(R.id.tv_3);
@@ -115,9 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.fl_content:
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) fl_content.getLayoutParams();
-                Log.e("222", layoutParams.leftMargin + "---" + layoutParams.topMargin);
-                Log.e("222", fl_content.getX() + "---" + fl_content.getWidth() / 2);
+//                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) fl_content.getLayoutParams();
                 Toast.makeText(this, fl_content.getX() + fl_content.getWidth() / 2 + "---" + fl_content.getY() + fl_content.getHeight() / 2, Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -132,9 +136,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return fl_content.getVisibility() == View.INVISIBLE;
     }
 
-    private void isShowVisibility(View beforeView) {
+    private void isShowVisibility(final View beforeView) {
         if (this.beforeView != null) {//已经存在beforeView
-//            this.afterView = beforeView;//已经存在设置为afterView
             //先执行位移动画 位移动画执行完在执行显示动画 afterView.getX() - beforeView.getX(), afterView.getY() - beforeView.getY()
             ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(fl_content, View.TRANSLATION_X, beforeView.getX() - this.beforeView.getX());//
             ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(fl_content, View.TRANSLATION_Y, beforeView.getY() - this.beforeView.getY());//
@@ -161,11 +164,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
                     fl_content.setVisibility(View.VISIBLE);
-                    showShadeAnimation();
+                    showShadeAnimation(beforeView);
                 }
             });
             animationSet.setInterpolator(new SpringInterpolator(1f));
-            animationSet.playTogether(translationXAnimator, translationYAnimator, widthUpdateTranslation, heightUpdateTranslation);
+            animationSet.playTogether(translationXAnimator, translationYAnimator, widthUpdateTranslation);
             animationSet.setDuration(100);
             animationSet.start();
         } else {
@@ -173,29 +176,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             this.beforeView = beforeView;
             fl_content.setVisibility(View.VISIBLE);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) fl_content.getLayoutParams();
-            layoutParams.setMargins((int) beforeView.getX(), (int) beforeView.getY(), 0, 0);
-            layoutParams.leftMargin = (int) beforeView.getX();
-            layoutParams.topMargin = (int) beforeView.getY();
-            layoutParams.width = beforeView.getWidth();
-            layoutParams.height = beforeView.getHeight();
+            layoutParams.leftMargin = (int) this.beforeView.getX()+(int) ll_content.getX();
+//            layoutParams.leftMargin = (int) this.beforeView.getX();
+            layoutParams.topMargin = (int) this.beforeView.getY();
+            layoutParams.width = this.beforeView.getWidth();
+//            layoutParams.height = beforeView.getHeight();
             fl_content.setLayoutParams(layoutParams);
-//            ShadowDrawable.setShadowDrawable(fl_content,Color.parseColor("#CCCAC9"),(int) Utils.dp2px(getResources(),5),
-//                    Color.parseColor("#000000"), (int) Utils.dp2px(getResources(),5), 0, 0);
-//            Log.e("tag", beforeView.getX() + "---" + beforeView.getY() + "---" + fl_content.getLeft() + "---" + fl_content.getTop());
-            showShadeAnimation();
+            showShadeAnimation(beforeView);
         }
     }
 
-    private void showShadeAnimation() {
+    private void showShadeAnimation(View view) {
         //动画
-        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(fl_content, "alpha", 0f, 0f, 1f);//
-        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(fl_content, "scaleY", 0f, 0f, 1f);//
-        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(fl_content, "scaleX", 0f, 0f, 1f);//
-        ValueAnimator widthUpdateTranslation = ValueAnimator.ofInt(fl_content.getWidth(), beforeView.getWidth());
+        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(fl_content, "alpha", 0f, 0f, 1.0f);//
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(fl_content, "scaleY", 0f, 0f, 1.1f);//
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(fl_content, "scaleX", 0f, 0f, 1.1f);//
+        ValueAnimator widthUpdateTranslation = ValueAnimator.ofInt(fl_content.getWidth(), view.getWidth());
         widthUpdateTranslation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                Log.e("hahah", animation.getAnimatedValue().toString());
                 fl_content.getLayoutParams().width = (Integer) animation.getAnimatedValue();
                 fl_content.requestLayout();
             }
@@ -205,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         heightUpdateTranslation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                Log.e("hahah111", animation.getAnimatedValue().toString());
                 fl_content.getLayoutParams().height = (Integer) animation.getAnimatedValue();
                 fl_content.requestLayout();
             }
@@ -216,14 +214,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-//                ShadowDrawable.setShadowDrawable(fl_content,(int) Utils.dp2px(getResources(),20),
-//                        Color.parseColor("#000000"), (int) Utils.dp2px(getResources(),20), 0, 0);
                 count = 3;//重置时间
                 handler.postDelayed(runnable, 1000);
             }
         });
         animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
-        animatorSet.playTogether(alphaAnimator, scaleXAnimator, scaleYAnimator);
+        animatorSet.playTogether(alphaAnimator, scaleXAnimator, scaleYAnimator,widthUpdateTranslation,heightUpdateTranslation);
         animatorSet.setDuration(300);
         animatorSet.start();
     }
@@ -266,11 +262,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(fl_content, View.TRANSLATION_X, translationX);//
         ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(fl_content, View.TRANSLATION_Y, translationY);//
         ValueAnimator widthUpdateTranslation = ValueAnimator.ofInt(fl_content.getWidth(), afterView.getWidth());
+        Log.e("eeee",fl_content.getWidth()+"---"+afterView.getWidth());
         widthUpdateTranslation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 fl_content.getLayoutParams().width = (Integer) animation.getAnimatedValue();
                 fl_content.requestLayout();
+                Log.e("bef",fl_content.getWidth()+"---"+animation.getAnimatedValue());
             }
         });
 
@@ -287,6 +285,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                Log.e("afterView",fl_content.getX()+"---"+fl_content.getWidth()+"---"+afterView.getWidth());
                 //开始倒计时
                 count = 3;//重置时间
                 handler.postDelayed(runnable, 1000);

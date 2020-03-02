@@ -37,7 +37,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
         tv1 = findViewById(R.id.tv_1);
         tv2 = findViewById(R.id.tv_2);
@@ -81,20 +81,14 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                             view = tv1;
                             break;
                     }
-//                    view = tv1;
+                    view = tv3;
+                    Log.e("tag",view.getLeft()+"---");
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) fl_content.getLayoutParams();
-                    layoutParams.leftMargin = (int) view.getX();
-                    layoutParams.topMargin = (int) view.getY();
-//                    int midXFl = (int) (fl_content.getX() + fl_content.getWidth() / 2);
-//                    int midYFl = (int) (fl_content.getY() + fl_content.getHeight() / 2);
-//                    int midXView = (int) (view.getX() + view.getWidth() / 2);
-//                    int midYView = (int) (view.getY() + view.getHeight() / 2);
-//                    int midX = midXView - midXFl;
-//                    int midY = midYView - midYFl;
-//                    layoutParams.width = view.getWidth();
-//                    layoutParams.height = view.getHeight();
-//                    layoutParams.leftMargin =(int) fl_content.getX()+midX;
-//                    layoutParams.topMargin = (int) fl_content.getY()+midY;
+//                    layoutParams.leftMargin = (int) view.getX();
+//                    layoutParams.topMargin = (int) view.getY();
+
+                    layoutParams.leftMargin =  view.getLeft();
+                    layoutParams.topMargin =  view.getTop();
                     //算出中心点
                     fl_content.setLayoutParams(layoutParams);
                     beforeView = view;

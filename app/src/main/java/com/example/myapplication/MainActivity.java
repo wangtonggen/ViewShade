@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Handler handler;
     private Runnable runnable;
-    private int count = 3;
+    private int count = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             animationSet.setInterpolator(new SpringInterpolator(1f));
-            animationSet.playTogether(translationXAnimator, translationYAnimator, widthUpdateTranslation);
+            animationSet.playTogether(translationXAnimator, translationYAnimator, widthUpdateTranslation,heightUpdateTranslation);
             animationSet.setDuration(100);
             animationSet.start();
         } else {
@@ -176,8 +176,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             this.beforeView = beforeView;
             fl_content.setVisibility(View.VISIBLE);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) fl_content.getLayoutParams();
-            layoutParams.leftMargin = (int) this.beforeView.getX()+(int) ll_content.getX();
-//            layoutParams.leftMargin = (int) this.beforeView.getX();
+            layoutParams.leftMargin = this.beforeView.getLeft() + ll_content.getLeft();
+            layoutParams.rightMargin = this.beforeView.getRight() + ll_content.getRight();
+            layoutParams.topMargin = this.beforeView.getTop() + ll_content.getTop();
+            layoutParams.bottomMargin = this.beforeView.getBottom() + ll_content.getBottom();
             layoutParams.topMargin = (int) this.beforeView.getY();
             layoutParams.width = this.beforeView.getWidth();
 //            layoutParams.height = beforeView.getHeight();
@@ -214,12 +216,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                //
                 count = 3;//重置时间
                 handler.postDelayed(runnable, 1000);
             }
         });
         animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
-        animatorSet.playTogether(alphaAnimator, scaleXAnimator, scaleYAnimator,widthUpdateTranslation,heightUpdateTranslation);
+        animatorSet.playTogether(alphaAnimator, scaleXAnimator, scaleYAnimator, widthUpdateTranslation, heightUpdateTranslation);
         animatorSet.setDuration(300);
         animatorSet.start();
     }
@@ -257,18 +260,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param translationY Y方向移动距离
      */
     private void translationShadeAnimation(float translationX, float translationY) {
+        Log.e("tata", translationX + "---" + translationY);
         //动画
         handler.removeCallbacks(runnable);//停止倒计时
         ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(fl_content, View.TRANSLATION_X, translationX);//
         ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(fl_content, View.TRANSLATION_Y, translationY);//
-        ValueAnimator widthUpdateTranslation = ValueAnimator.ofInt(fl_content.getWidth(), afterView.getWidth());
-        Log.e("eeee",fl_content.getWidth()+"---"+afterView.getWidth());
+        ValueAnimator widthUpdateTranslation = ValueAnimator.ofInt(fl_content.getWidth(), afterView.getWidth(), afterView.getWidth());
         widthUpdateTranslation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 fl_content.getLayoutParams().width = (Integer) animation.getAnimatedValue();
                 fl_content.requestLayout();
-                Log.e("bef",fl_content.getWidth()+"---"+animation.getAnimatedValue());
+                Log.e("bef", fl_content.getWidth() + "---" + animation.getAnimatedValue());
             }
         });
 
@@ -285,14 +288,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                Log.e("afterView",fl_content.getX()+"---"+fl_content.getWidth()+"---"+afterView.getWidth());
+                Log.e("afterView", fl_content.getX() + "---" + fl_content.getWidth() + "---" + afterView.getWidth());
+//                startUpdateWidthAndHeight();
                 //开始倒计时
                 count = 3;//重置时间
                 handler.postDelayed(runnable, 1000);
             }
         });
         animationSet.setInterpolator(new SpringInterpolator(1f));
-        animationSet.playTogether(translationXAnimator, translationYAnimator, widthUpdateTranslation, heightUpdateTranslation);
+        animationSet.playTogether(translationXAnimator, translationYAnimator, widthUpdateTranslation,heightUpdateTranslation);
+//        animationSet.playTogether(translationXAnimator, translationYAnimator);
+        animationSet.setDuration(500);
+        animationSet.start();
+//        widthUpdateTranslation.start();
+//        heightUpdateTranslation.start();
+    }
+
+    private void startUpdateWidthAndHeight(){
+        ValueAnimator widthUpdateTranslation = ValueAnimator.ofInt(fl_content.getWidth(), afterView.getWidth(), afterView.getWidth());
+        widthUpdateTranslation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                fl_content.getLayoutParams().width = (Integer) animation.getAnimatedValue();
+                fl_content.requestLayout();
+                Log.e("bef", fl_content.getWidth() + "---" + animation.getAnimatedValue());
+            }
+        });
+
+        ValueAnimator heightUpdateTranslation = ValueAnimator.ofInt(fl_content.getHeight(), afterView.getHeight());
+        heightUpdateTranslation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                fl_content.getLayoutParams().height = (Integer) animation.getAnimatedValue();
+                fl_content.requestLayout();
+            }
+        });
+
+        widthUpdateTranslation.start();
+        heightUpdateTranslation.start();
+        AnimatorSet animationSet = new AnimatorSet();
+        animationSet.setInterpolator(new SpringInterpolator(1f));
+        animationSet.playTogether(widthUpdateTranslation, heightUpdateTranslation);
         animationSet.setDuration(500);
         animationSet.start();
     }

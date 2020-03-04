@@ -27,13 +27,14 @@
                 android:id="@+id/cl_layout"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:background="@drawable/shape_bg"
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
+                android:background="@drawable/shape_bg"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tv_4"
+                    android:layout_marginLeft="5dp"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:background="@drawable/shape_tv_left"

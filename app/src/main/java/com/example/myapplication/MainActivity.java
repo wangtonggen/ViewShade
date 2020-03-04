@@ -144,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         view.setVisibility(View.VISIBLE);
         rl_content.addView(view);
 
+        Log.e("tv4",findViewById(R.id.tv_4).getLeft()+"---");
+        Log.e("tv5",findViewById(R.id.tv_5).getLeft()+"---");
         this.beforeView = beforeView;
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
         layoutParams.alignWithParent = true;

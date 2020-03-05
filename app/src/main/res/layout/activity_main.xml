@@ -1,154 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-
-    <RelativeLayout
-        android:id="@+id/rl_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ll_content"
+        <RelativeLayout
+            android:id="@+id/rl_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_layout"
+                android:id="@+id/ll_content"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:paddingLeft="1dp"
-                android:paddingRight="1dp"
-                android:background="@drawable/shape_bg"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/tv_4"
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/shape_tv_left"
-                    android:gravity="center"
-                    android:text="开启电源"
-                    android:textColor="@android:color/black"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/line3"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/shape_bg"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="1dp"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <View
-                    android:id="@+id/line3"
-                    android:layout_width="1dp"
-                    android:layout_height="40dp"
-                    android:background="#CCCAC9"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_4"
-                    app:layout_constraintLeft_toRightOf="@id/tv_4"
-                    app:layout_constraintRight_toLeftOf="@id/tv_5"
-                    app:layout_constraintTop_toTopOf="@id/tv_4" />
+                    <TextView
+                        android:id="@+id/tv_4"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/shape_tv_left"
+                        android:gravity="center"
+                        android:text="开启电源"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/line3"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_5"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/shape_tv_right"
-                    android:gravity="center"
-                    android:text="关闭电源"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_4"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toRightOf="@id/line3"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_4" />
+                    <View
+                        android:id="@+id/line3"
+                        android:layout_width="1dp"
+                        android:layout_height="40dp"
+                        android:background="#CCCAC9"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_4"
+                        app:layout_constraintLeft_toRightOf="@id/tv_4"
+                        app:layout_constraintRight_toLeftOf="@id/tv_5"
+                        app:layout_constraintTop_toTopOf="@id/tv_4" />
+
+                    <TextView
+                        android:id="@+id/tv_5"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/shape_tv_right"
+                        android:gravity="center"
+                        android:text="关闭电源"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_4"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toRightOf="@id/line3"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_4" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ll_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/shape_bg"
+                    android:paddingLeft="1dp"
+                    android:paddingTop="1dp"
+                    android:paddingRight="1dp"
+                    android:paddingBottom="1dp"
+                    app:layout_constraintTop_toBottomOf="@id/cl_layout">
+
+                    <TextView
+                        android:id="@+id/tv_1"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:background="@android:color/holo_red_light"
+                        android:gravity="center"
+                        android:text="My Hello World!"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp"
+                        app:layout_constraintRight_toLeftOf="@id/tv_2"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_2"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        app:layout_constraintLeft_toRightOf="@id/tv_1"
+                        android:background="@android:color/holo_red_dark"
+                        android:gravity="center"
+                        android:text="Hello World!"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <LinearLayout
-                android:id="@+id/ll_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:background="@drawable/shape_bg"
-                app:layout_constraintTop_toBottomOf="@id/cl_layout">
+        </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tv_1"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape_tv_left"
-                    android:gravity="center"
-                    android:text="My Hello World!"
-                    android:textColor="@android:color/black"
-                    android:textSize="12sp" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="40dp"
-                    android:background="#CCCAC9" />
-
-                <TextView
-                    android:id="@+id/tv_2"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="2"
-                    android:background="@android:color/white"
-                    android:gravity="center"
-                    android:text="Hello World!"
-                    android:textColor="@android:color/black" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="40dp"
-                    android:background="#CCCAC9" />
-
-                <TextView
-                    android:id="@+id/tv_3"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape_tv_right"
-                    android:gravity="center"
-                    android:text="Hello World!"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_show"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="显示一个按钮" />
+            android:layout_marginTop="800dp"
+            app:layout_constraintTop_toBottomOf="@id/rl_content">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_hide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="显示两个按钮" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示一个按钮" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_show3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="显示三个按钮" />
-    </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_hide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示两个按钮" />
+        </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
